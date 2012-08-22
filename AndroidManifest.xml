@@ -1,0 +1,45 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.fsck.k9.externalprovider.test"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="15" />
+    
+    <uses-permission android:name="com.fsck.k9.permission.READ_MESSAGES" />
+    <uses-permission android:name="com.fsck.k9.permission.DELETE_MESSAGES" />
+    
+    <application android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:theme="@style/AppTheme" >
+               
+		<!-- An application must run at least once for BroadcastReceiver to be registered by the system so we use this dummy -->
+        <activity android:name=".DummyActivity" android:label="@string/app_name" android:excludeFromRecents="true" android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+ 				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+        </activity>
+        
+ 		<!-- Catch and log K9 broadcasts -->
+        <receiver android:name=".ExternalBroadcastsReceiver" android:enabled="true">
+ 			
+ 			<!-- On email received -->
+            <intent-filter>
+	            <data android:scheme="email" />
+	            <action android:name="com.fsck.k9.intent.action.EMAIL_RECEIVED" />
+	        </intent-filter>
+	        
+ 			<!-- On email deleted -->
+           <intent-filter>
+	            <data android:scheme="email" />
+	            <action android:name="com.fsck.k9.intent.action.EMAIL_DELETED" />
+	        </intent-filter>
+	        
+ 			<!-- On status change -->
+           <intent-filter>
+	            <action android:name="com.fsck.k9.intent.action.REFRESH_OBSERVER" />
+	        </intent-filter>
+        </receiver>
+        
+        
+	</application>
+
+</manifest>
